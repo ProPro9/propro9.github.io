@@ -1,92 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Propro9</title>
-<meta name="description" content="Propro9">
-<link rel="icon" type="image/png" href="favicon.png">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--background:#0b0c10;--text:#f0f2f6;--muted:#9299a8;--dim:#5f6674;--accent-bright:#1e6edb}
-html,body{min-height:100%;background:var(--background)}
-body{min-height:100vh;overflow:hidden;color:var(--text);font-family:"Courier New",Courier,monospace;background:radial-gradient(circle at 76% 10%,rgba(0,71,171,.15),transparent 31%),radial-gradient(circle at 18% 84%,rgba(30,110,219,.1),transparent 32%),var(--background)}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.6),transparent 95%);z-index:0}
-.vignette{position:fixed;inset:0;pointer-events:none;z-index:3;box-shadow:inset 0 0 200px rgba(0,0,0,.85)}
-.ambient{position:fixed;width:600px;height:600px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(30,110,219,.12),rgba(0,71,171,.05) 40%,transparent 70%);filter:blur(40px);pointer-events:none;z-index:0;animation:ambientFloat 15s ease-in-out infinite alternate}
-@keyframes ambientFloat{from{transform:translate(-55%,-55%) scale(.9)}to{transform:translate(-45%,-45%) scale(1.1)}}
-a,button{font:inherit}
-
-.liquid-glass{
-  position:relative;
-  overflow:hidden;
-  isolation:isolate;
-  background:rgba(255,255,255,0.03);
-  background-image:linear-gradient(135deg,rgba(255,255,255,.12) 0%,rgba(255,255,255,.03) 30%,rgba(255,255,255,.06) 52%,rgba(255,255,255,.015) 100%);
-  backdrop-filter:blur(10px) saturate(150%);
-  -webkit-backdrop-filter:blur(10px) saturate(150%);
-  border:1px solid rgba(255,255,255,.12);
-  border-top-color:rgba(255,255,255,.24);
-  border-left-color:rgba(255,255,255,.16);
-  border-right-color:rgba(255,255,255,.06);
-  border-bottom-color:rgba(255,255,255,.04);
-  box-shadow:inset 1px 1px 1px rgba(255,255,255,.18),inset -1px -1px 1px rgba(255,255,255,.04),inset 0 0 24px rgba(255,255,255,.05),0 16px 32px rgba(0,0,0,.28),0 1px 0 rgba(255,255,255,.12);
-}
-.liquid-glass::before{
-  content:"";
-  position:absolute;
-  inset:-12%;
-  border-radius:inherit;
-  pointer-events:none;
-  z-index:0;
-  background:
-    radial-gradient(circle at 30% 25%, rgba(255,255,255,.22), rgba(255,255,255,0) 30%),
-    linear-gradient(120deg, rgba(255,255,255,.18), rgba(255,255,255,0) 45%, rgba(255,255,255,.08) 70%, rgba(255,255,255,0) 100%);
-  filter:url(#glass-distortion) blur(.5px) saturate(1.6);
-  opacity:.7;
-}
-.liquid-glass::after{
-  content:"";
-  position:absolute;
-  inset:1px;
-  border-radius:inherit;
-  pointer-events:none;
-  z-index:1;
-  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0) 30%,rgba(0,0,0,.06));
-  opacity:.8;
-}
-.liquid-glass > * { position:relative; z-index:2; }
-
-.random-video,.sidebar-toggle{position:fixed;top:30px;z-index:20;width:52px;height:52px;display:grid;place-items:center;color:rgba(255,255,255,.88);font-size:18px;border-radius:50%;cursor:pointer;transition:all .35s cubic-bezier(.22,1,.36,1)}
-.random-video{right:30px}.sidebar-toggle{left:30px}
-.random-video:hover,.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,.06);box-shadow:inset 1px 1px 2px rgba(255,255,255,.38),inset -5px -8px 18px rgba(0,0,0,.2),0 18px 30px rgba(30,110,219,.18);transform:translateY(-2px) scale(1.02)}
-.random-video:active,.sidebar-toggle:active{transform:translateY(1px) scale(.98)}
-
-.sidebar{position:fixed;top:100px;left:30px;width:260px;padding:30px 20px;border-radius:30px;z-index:15;background:rgba(255,255,255,0.02);transform:translateX(-150%);opacity:0;pointer-events:none;transition:all .6s cubic-bezier(.16,1,.3,1)}
-.sidebar.open{transform:translateX(0);opacity:1;pointer-events:auto}.sidebar-nav{display:flex;flex-direction:column;gap:16px}
-.liquid-button{position:relative;padding:16px;color:rgba(255,255,255,.92);text-align:center;font-weight:700;font-size:14px;border-radius:16px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.02);box-shadow:inset 1px 1px 2px rgba(255,255,255,.12),inset -4px -6px 10px rgba(0,0,0,.18),0 8px 18px rgba(0,0,0,.08);cursor:pointer;transition:all .2s ease}
-.liquid-button:hover{color:#fff;background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.18);transform:translateY(-2px)}.liquid-button:active{transform:translateY(1px)}
-
-.footer{position:fixed;left:50%;bottom:24px;width:min(720px,calc(100% - 40px));transform:translateX(-50%);z-index:10;text-align:center}.links{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px}.link-button{display:inline-flex;align-items:center;justify-content:center;min-width:100px;padding:12px 20px;color:var(--muted);text-decoration:none;border-radius:20px;font-size:12px;font-weight:bold;transition:all .3s ease}.link-button:hover{color:#fff;transform:translateY(-3px)}.copyright{color:var(--dim);font-size:10px;line-height:1.65}.copyright strong{color:var(--muted);font-weight:normal}
-@media(pointer:fine){html,body,body *,a,button,img{cursor:none!important}}.cursor-dot{position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;background:#e6f0ff;box-shadow:0 0 0 1px rgba(0,0,0,.35),0 0 10px rgba(230,240,255,.34);pointer-events:none;transform:translate(-50%,-50%);opacity:0;z-index:9999;transition:opacity .1s ease,width .1s ease,height .1s ease}.cursor-dot.interactive{width:14px;height:14px;background:rgba(230,240,255,.12);border:1px solid #e6f0ff;box-shadow:0 0 11px rgba(230,240,255,.26)}.cursor-dot.pressed{width:6px;height:6px}.cursor-glow{position:fixed;top:0;left:0;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(30,110,219,.14),rgba(30,110,219,.065) 32%,rgba(30,110,219,.025) 55%,transparent 72%);filter:blur(10px);pointer-events:none;transform:translate(-50%,-50%);opacity:0;z-index:1;transition:opacity .18s ease}@media(pointer:coarse){.cursor-dot,.cursor-glow{display:none}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propro9</title>
+    <meta name="description" content="Propro9">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --background: #0b0c10;
+            --panel: rgba(22, 24, 32, .78);
+            --panel-hover: rgba(27, 30, 40, .92);
+            --border: #2a2e39;
+            --text: #f0f2f6;
+            --muted: #9299a8;
+            --dim: #5f6674;
+            --accent-bright: #1e6edb;
+            --accent-soft: rgba(0, 71, 171, .14);
+        }
+        html, body { min-height: 100%; background: var(--background); }
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            color: var(--text);
+            font-family: "Courier New", Courier, monospace;
+            background:
+                radial-gradient(circle at 76% 10%, rgba(0, 71, 171, .11), transparent 31%),
+                radial-gradient(circle at 18% 84%, rgba(30, 110, 219, .06), transparent 32%),
+                var(--background);
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(rgba(255,255,255,.012) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.008) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.46), transparent 88%);
+            z-index: 0;
+        }
+        .vignette { position: fixed; inset: 0; pointer-events: none; z-index: 3; box-shadow: inset 0 0 180px rgba(0,0,0,.72); }
+        .ambient {
+            position: fixed; width: 520px; height: 520px; left: 50%; top: 45%;
+            transform: translate(-50%,-50%); border-radius: 50%;
+            background: radial-gradient(circle, rgba(30,110,219,.10), rgba(0,71,171,.05) 38%, transparent 70%);
+            filter: blur(26px); pointer-events: none; z-index: 0;
+            animation: ambientFloat 11s ease-in-out infinite alternate;
+        }
+        @keyframes ambientFloat {
+            from { transform: translate(-54%,-52%) scale(.95); }
+            to { transform: translate(-46%,-47%) scale(1.07); }
+        }
+        .center-mark { position: fixed; left: 50%; top: 45%; transform: translate(-50%,-50%); z-index: 1; user-select: none; pointer-events: none; text-align: center; }
+        .center-mark h1 { font-size: clamp(52px, 10vw, 140px); line-height: .9; letter-spacing: -.075em; color: rgba(240,242,246,.055); text-shadow: 0 0 42px rgba(30,110,219,.08); }
+        .center-line { width: min(280px,36vw); height: 1px; margin: 18px auto 0; background: linear-gradient(90deg, transparent, rgba(30,110,219,.42), transparent); }
+        a, button { font: inherit; }
+        .random-video {
+            position: fixed; top: 24px; right: 24px; z-index: 10;
+            width: 46px; height: 46px; display: grid; place-items: center;
+            color: var(--muted); background: rgba(22,24,32,.72);
+            border: 1px solid var(--border); border-radius: 50%; font-size: 17px;
+            backdrop-filter: blur(14px); cursor: pointer; transition: all .18s ease;
+        }
+        .random-video:hover { color: white; background: var(--panel-hover); border-color: var(--accent-bright); transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(0,71,171,.15); }
+        .random-video:active { transform: translateY(0); }
+        .saul { position: fixed; left: 18px; bottom: 16px; z-index: 2; width: 92px; height: 58px; object-fit: cover; object-position: 50% 24%; opacity: .16; filter: saturate(.55) contrast(1.03); border-radius: 7px; border: 1px solid rgba(255,255,255,.06); transition: all .22s ease; }
+        .saul:hover { opacity: .82; filter: saturate(.9) contrast(1.04); transform: translateY(-3px) scale(1.035); }
+        .footer { position: fixed; left: 50%; bottom: 24px; width: min(720px,calc(100% - 40px)); transform: translateX(-50%); z-index: 10; text-align: center; }
+        .links { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+        .link-button { display: inline-flex; align-items: center; justify-content: center; min-width: 112px; padding: 11px 17px; color: var(--text); text-decoration: none; background: linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,0)),var(--panel); border: 1px solid var(--border); border-radius: 7px; font-size: 12px; font-weight: bold; backdrop-filter: blur(14px); transition: all .18s ease; }
+        .link-button:hover { color: white; background: linear-gradient(180deg,rgba(255,255,255,.03),transparent),var(--accent-soft); border-color: var(--accent-bright); transform: translateY(-3px); box-shadow: 0 9px 28px rgba(0,71,171,.14), inset 0 0 22px rgba(30,110,219,.035); }
+        .copyright { color: var(--dim); font-size: 10px; line-height: 1.65; }
+        .copyright strong { color: var(--muted); font-weight: normal; }
+        @media (pointer:fine) { html,body,body *,a,button,img { cursor: none !important; } }
+        .cursor-dot { position: fixed; top: 0; left: 0; width: 9px; height: 9px; border-radius: 50%; background: #e6f0ff; box-shadow: 0 0 0 1px rgba(0,0,0,.35),0 0 10px rgba(230,240,255,.34); pointer-events: none; transform: translate(-50%,-50%); opacity: 0; z-index: 9999; transition: opacity .1s ease,width .1s ease,height .1s ease; }
+        .cursor-dot.interactive { width: 14px; height: 14px; background: rgba(230,240,255,.12); border: 1px solid #e6f0ff; box-shadow: 0 0 11px rgba(230,240,255,.26); }
+        .cursor-dot.pressed { width: 6px; height: 6px; }
+        .cursor-glow { position: fixed; top: 0; left: 0; width: 350px; height: 350px; border-radius: 50%; background: radial-gradient(circle,rgba(30,110,219,.14),rgba(30,110,219,.065) 32%,rgba(30,110,219,.025) 55%,transparent 72%); filter: blur(10px); pointer-events: none; transform: translate(-50%,-50%); opacity: 0; z-index: 1; transition: opacity .18s ease; }
+        @media (pointer:coarse) { .cursor-dot,.cursor-glow { display:none; } }
+        @media (prefers-reduced-motion:reduce) { .ambient { animation:none; } }
+        @media (max-width:620px) { .random-video { top:16px; right:16px; } .footer { bottom:18px; } .link-button { min-width:96px; padding:10px 13px; font-size:11px; } .saul { width:68px; height:44px; left:12px; bottom:12px; } .center-mark { top:41%; } }
+    </style>
 </head>
 <body>
-<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
-  <filter id="glass-distortion" x="-20%" y="-20%" width="140%" height="140%">
-    <feTurbulence type="turbulence" baseFrequency="0.01" numOctaves="2" seed="7" result="turbulence"/>
-    <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="120" xChannelSelector="R" yChannelSelector="G"/>
-  </filter>
-</svg>
-<div class="ambient"></div><div class="vignette"></div><div class="cursor-glow" id="cursor-glow"></div><div class="cursor-dot" id="cursor-dot"></div>
-<button class="sidebar-toggle liquid-glass" id="sidebar-toggle-btn" aria-label="Toggle Sidebar" title="Menu">☰</button>
-<aside class="sidebar liquid-glass" id="sidebar"><nav class="sidebar-nav"><button class="liquid-button">Placeholder 1</button><button class="liquid-button">Placeholder 2</button><button class="liquid-button">Placeholder 3</button></nav></aside>
-<button class="random-video liquid-glass" id="random-video-button" type="button" aria-label="Open a random YouTube video" title="Random YouTube Video">▶</button>
-<footer class="footer"><div class="links"><a class="link-button liquid-glass" href="https://propro-9.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a><a class="link-button liquid-glass" href="https://discord.gg/TgCeMFfEwG" target="_blank" rel="noopener noreferrer">Discord</a><a class="link-button liquid-glass" href="https://www.youtube.com/@Propro_9" target="_blank" rel="noopener noreferrer">YouTube</a></div><div class="copyright">© 2026 <strong>Bowen S.</strong><br>All rights reserved.</div></footer>
-<script>
-const sidebarToggle=document.getElementById('sidebar-toggle-btn'),sidebar=document.getElementById('sidebar');sidebarToggle.addEventListener('click',e=>{e.stopPropagation();sidebar.classList.toggle('open')});document.addEventListener('click',e=>{if(sidebar.classList.contains('open')&&!sidebar.contains(e.target)&&e.target!==sidebarToggle)sidebar.classList.remove('open')});
-const randomVideoButton=document.getElementById('random-video-button'),randomVideos=['https://www.youtube.com/watch?v=jNQXAC9IVRw','https://www.youtube.com/watch?v=9bZkp7q19f0','https://www.youtube.com/watch?v=dQw4w9WgXcQ','https://www.youtube.com/watch?v=GHiOrkQlIGM','https://www.youtube.com/watch?v=IVYjJ5eEmuk','https://www.youtube.com/watch?v=nOJd3xoKMyI','https://www.youtube.com/watch?v=v3Jr9dGHbG4','https://www.youtube.com/watch?v=FtutLA63Cp8','https://www.youtube.com/watch?v=tVlKLpxyCBY'];randomVideoButton.addEventListener('click',()=>window.open(randomVideos[Math.floor(Math.random()*randomVideos.length)],'_blank','noopener,noreferrer'));
-const cursorDot=document.getElementById('cursor-dot'),cursorGlow=document.getElementById('cursor-glow');let mouseX=innerWidth/2,mouseY=innerHeight/2,glowX=mouseX,glowY=mouseY;document.addEventListener('mousemove',e=>{mouseX=e.clientX;mouseY=e.clientY;cursorDot.style.left=`${mouseX}px`;cursorDot.style.top=`${mouseY}px`;cursorDot.style.opacity='1';cursorGlow.style.opacity='1'});document.addEventListener('mouseleave',()=>{cursorDot.style.opacity='0';cursorGlow.style.opacity='0'});document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>cursorDot.classList.add('interactive'));el.addEventListener('mouseleave',()=>cursorDot.classList.remove('interactive'))});document.addEventListener('mousedown',()=>cursorDot.classList.add('pressed'));document.addEventListener('mouseup',()=>cursorDot.classList.remove('pressed'));function updateCursorGlow(){glowX+=(mouseX-glowX)*.12;glowY+=(mouseY-glowY)*.12;cursorGlow.style.left=`${glowX}px`;cursorGlow.style.top=`${glowY}px`;requestAnimationFrame(updateCursorGlow)}updateCursorGlow();
-</script>
+    <div class="ambient"></div>
+    <div class="vignette"></div>
+    <div class="cursor-glow" id="cursor-glow"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="center-mark" aria-hidden="true"><h1>Propro9</h1><div class="center-line"></div></div>
+    <button class="random-video" id="random-video-button" type="button" aria-label="Open a random YouTube video" title="Random YouTube Video">▶</button>
+    <img class="saul" src="saul.png" alt="" title="he is here">
+    <footer class="footer">
+        <div class="links">
+            <a class="link-button" href="https://propro-9.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a>
+            <a class="link-button" href="https://discord.gg/TgCeMFfEwG" target="_blank" rel="noopener noreferrer">Discord</a>
+            <a class="link-button" href="https://www.youtube.com/@Propro_9" target="_blank" rel="noopener noreferrer">YouTube</a>
+        </div>
+        <div class="copyright">© 2026 <strong>Bowen S.</strong><br>All rights reserved.</div>
+    </footer>
+    <script>
+        const randomVideoButton = document.getElementById("random-video-button");
+        const randomVideos = ["https://www.youtube.com/watch?v=jNQXAC9IVRw","https://www.youtube.com/watch?v=9bZkp7q19f0","https://www.youtube.com/watch?v=dQw4w9WgXcQ","https://www.youtube.com/watch?v=GHiOrkQlIGM","https://www.youtube.com/watch?v=IVYjJ5eEmuk","https://www.youtube.com/watch?v=nOJd3xoKMyI","https://www.youtube.com/watch?v=v3Jr9dGHbG4","https://www.youtube.com/watch?v=FtutLA63Cp8","https://www.youtube.com/watch?v=tVlKLpxyCBY"];
+        randomVideoButton.addEventListener("click", () => window.open(randomVideos[Math.floor(Math.random() * randomVideos.length)], "_blank", "noopener,noreferrer"));
+        const cursorDot = document.getElementById("cursor-dot"), cursorGlow = document.getElementById("cursor-glow");
+        let mouseX = innerWidth / 2, mouseY = innerHeight / 2, glowX = mouseX, glowY = mouseY;
+        document.addEventListener("mousemove", event => { mouseX = event.clientX; mouseY = event.clientY; cursorDot.style.left = `${mouseX}px`; cursorDot.style.top = `${mouseY}px`; cursorDot.style.opacity = "1"; cursorGlow.style.opacity = "1"; });
+        document.addEventListener("mouseleave", () => { cursorDot.style.opacity = "0"; cursorGlow.style.opacity = "0"; });
+        document.querySelectorAll("a, button, .saul").forEach(element => { element.addEventListener("mouseenter", () => cursorDot.classList.add("interactive")); element.addEventListener("mouseleave", () => cursorDot.classList.remove("interactive")); });
+        document.addEventListener("mousedown", () => cursorDot.classList.add("pressed"));
+        document.addEventListener("mouseup", () => cursorDot.classList.remove("pressed"));
+        function updateCursorGlow() { glowX += (mouseX - glowX) * .12; glowY += (mouseY - glowY) * .12; cursorGlow.style.left = `${glowX}px`; cursorGlow.style.top = `${glowY}px`; requestAnimationFrame(updateCursorGlow); }
+        updateCursorGlow();
+    </script>
 </body>
 </html>
