@@ -35,7 +35,7 @@
 
         body {
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden; /* Changed to allow vertical scrolling if needed */
             color: var(--text);
             font-family: "Courier New", Courier, monospace;
 
@@ -58,7 +58,11 @@
             mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.46), transparent 88%);
             z-index: 0;
         }
-25%  { transform: translate(1%, -1%); }
+
+        /* Fixed broken keyframe block from original code */
+        @keyframes drift {
+            0%   { transform: translate(0, 0); }
+            25%  { transform: translate(1%, -1%); }
             50%  { transform: translate(-1%, 1%); }
             75%  { transform: translate(1%, 1%); }
             100% { transform: translate(0, 0); }
@@ -94,15 +98,11 @@
         }
 
         @keyframes ambientFloat {
-            from {
-                transform: translate(-54%, -52%) scale(0.95);
-            }
-            to {
-                transform: translate(-46%, -47%) scale(1.07);
-            }
+            from { transform: translate(-54%, -52%) scale(0.95); }
+            to { transform: translate(-46%, -47%) scale(1.07); }
         }
-a,
-        button {
+
+        a, button {
             font: inherit;
         }
 
@@ -112,29 +112,17 @@ a,
             top: 24px;
             right: 24px;
             z-index: 10;
-
             width: 46px;
             height: 46px;
-
             display: grid;
             place-items: center;
-
             color: var(--muted);
             background: rgba(22, 24, 32, 0.72);
-
             border: 1px solid var(--border);
             border-radius: 50%;
-
             font-size: 17px;
-
             backdrop-filter: blur(14px);
-
-            transition:
-                color 0.18s ease,
-                background 0.18s ease,
-                border-color 0.18s ease,
-                transform 0.18s ease,
-                box-shadow 0.18s ease;
+            transition: all 0.18s ease;
         }
 
         .random-video:hover {
@@ -148,7 +136,136 @@ a,
         .random-video:active {
             transform: translateY(0);
         }
-/* footer */
+
+        /* =========================================
+           NEW ADDITIONS: Sidebar & Toggle
+           ========================================= */
+        
+        .sidebar-toggle {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 20;
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            color: var(--muted);
+            background: rgba(22, 24, 32, 0.72);
+            border: 1px solid var(--border);
+            border-radius: 8px; /* Square for contrast with random video button */
+            font-size: 20px;
+            backdrop-filter: blur(14px);
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .sidebar-toggle:hover {
+            color: white;
+            background: var(--panel-hover);
+            border-color: var(--accent-bright);
+            box-shadow: 0 10px 28px rgba(0, 71, 171, 0.15);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 280px;
+            background: var(--panel);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            z-index: 15;
+            padding: 90px 24px 24px;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 20px 0 40px rgba(0,0,0,0.5);
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            color: white;
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            text-shadow: 0 0 10px rgba(30, 110, 219, 0.5);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+
+        .sidebar-link:hover {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+            color: white;
+            transform: translateX(6px);
+            box-shadow: inset 0 0 15px rgba(30, 110, 219, 0.1);
+        }
+
+        /* =========================================
+           NEW ADDITIONS: Main Content "Stuff"
+           ========================================= */
+
+        .main-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 80px 20px 120px 20px; /* Padding for sidebar/footer clearance */
+            animation: drift 15s infinite linear;
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(22, 24, 32, 0.8), rgba(15, 17, 24, 0.6));
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .glass-card h1 {
+            color: white;
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            text-shadow: 0 0 20px rgba(30, 110, 219, 0.4);
+        }
+
+        .glass-card p {
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        /* footer */
         .footer {
             position: fixed;
             left: 50%;
@@ -172,54 +289,25 @@ a,
             display: inline-flex;
             align-items: center;
             justify-content: center;
-
             min-width: 112px;
             padding: 11px 17px;
-
             color: var(--text);
             text-decoration: none;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    rgba(255, 255, 255, 0.025),
-                    rgba(255, 255, 255, 0)
-                ),
-                var(--panel);
-
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)), var(--panel);
             border: 1px solid var(--border);
             border-radius: 7px;
-
             font-size: 12px;
             font-weight: bold;
-
             backdrop-filter: blur(14px);
-
-            transition:
-                color 0.18s ease,
-                background 0.18s ease,
-                border-color 0.18s ease,
-                transform 0.18s ease,
-                box-shadow 0.18s ease;
+            transition: all 0.18s ease;
         }
 
         .link-button:hover {
             color: white;
-            background:
-                linear-gradient(
-                    180deg,
-                    rgba(255, 255, 255, 0.03),
-                    transparent
-                ),
-                var(--accent-soft);
-
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent), var(--accent-soft);
             border-color: var(--accent-bright);
-
             transform: translateY(-3px);
-
-            box-shadow:
-                0 9px 28px rgba(0, 71, 171, 0.14),
-                inset 0 0 22px rgba(30, 110, 219, 0.035);
+            box-shadow: 0 9px 28px rgba(0, 71, 171, 0.14), inset 0 0 22px rgba(30, 110, 219, 0.035);
         }
 
         .link-button:active {
@@ -239,12 +327,7 @@ a,
 
         /* custom cursor */
         @media (pointer: fine) {
-            html,
-            body,
-            body *,
-            a,
-            button,
-            img {
+            html, body, body *, a, button, img {
                 cursor: none !important;
             }
         }
@@ -253,27 +336,16 @@ a,
             position: fixed;
             top: 0;
             left: 0;
-
             width: 9px;
             height: 9px;
-
             border-radius: 50%;
             background: #e6f0ff;
-
-            box-shadow:
-                0 0 0 1px rgba(0, 0, 0, 0.35),
-                0 0 10px rgba(230, 240, 255, 0.34);
-
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 0 0 10px rgba(230, 240, 255, 0.34);
             pointer-events: none;
             transform: translate(-50%, -50%);
             opacity: 0;
             z-index: 9999;
-
-            transition:
-                opacity 0.10s ease,
-                width 0.10s ease,
-                height 0.10s ease,
-                background 0.10s ease;
+            transition: opacity 0.10s ease, width 0.10s ease, height 0.10s ease, background 0.10s ease;
         }
 
         .cursor-dot.interactive {
@@ -293,70 +365,39 @@ a,
             position: fixed;
             top: 0;
             left: 0;
-
             width: 350px;
             height: 350px;
-
             border-radius: 50%;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(30, 110, 219, 0.14) 0%,
-                    rgba(30, 110, 219, 0.065) 32%,
-                    rgba(30, 110, 219, 0.025) 55%,
-                    transparent 72%
-                );
-
+            background: radial-gradient(circle, rgba(30, 110, 219, 0.14) 0%, rgba(30, 110, 219, 0.065) 32%, rgba(30, 110, 219, 0.025) 55%, transparent 72%);
             filter: blur(10px);
             pointer-events: none;
-
             transform: translate(-50%, -50%);
             opacity: 0;
             z-index: 1;
-
             transition: opacity 0.18s ease;
         }
 
         @media (pointer: coarse) {
-            .cursor-dot,
-            .cursor-glow {
+            .cursor-dot, .cursor-glow {
                 display: none;
             }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .ambient,
-            .float-dot,
-            .glass-orbit {
+            .ambient, .float-dot, .glass-orbit, .main-content {
                 animation: none;
             }
         }
 
         @media (max-width: 620px) {
-
-            .glass-orbit {
-                display: none;
-            }
-
-            .corner-accent {
-                opacity: 0.28;
-            }
-            .random-video {
-                top: 16px;
-                right: 16px;
-            }
-
-            .footer {
-                bottom: 18px;
-            }
-
-            .link-button {
-                min-width: 96px;
-                padding: 10px 13px;
-                font-size: 11px;
-            }
-}
+            .glass-orbit { display: none; }
+            .corner-accent { opacity: 0.28; }
+            .random-video { top: 16px; right: 16px; }
+            .sidebar-toggle { top: 16px; left: 16px; }
+            .footer { bottom: 18px; }
+            .link-button { min-width: 96px; padding: 10px 13px; font-size: 11px; }
+            .glass-card { padding: 30px 20px; }
+        }
     </style>
 </head>
 
@@ -375,7 +416,26 @@ a,
     <div class="float-dot three"></div>
 
     <div class="glass-orbit"></div>
-<button
+
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebar-toggle-btn" aria-label="Toggle Sidebar" title="Menu">
+        ☰
+    </button>
+
+    <!-- Navigation Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            System / Menu
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link">Terminal</a>
+            <a href="#" class="sidebar-link">Archives</a>
+            <a href="#" class="sidebar-link">Settings</a>
+            <a href="#" class="sidebar-link">Network Status</a>
+        </nav>
+    </aside>
+
+    <button
         class="random-video"
         id="random-video-button"
         type="button"
@@ -383,31 +443,20 @@ a,
         title="Random YouTube Video">
         ▶
     </button>
-<footer class="footer">
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="glass-card">
+            <h1>Welcome to Propro9</h1>
+            <p>Initializing sequence... system stable. Explore the vastness of the digital frontier using the terminal menu on your left, or initiate a random media sequence from the top right array.</p>
+        </div>
+    </main>
+
+    <footer class="footer">
         <div class="links">
-            <a
-                class="link-button"
-                href="https://propro-9.itch.io/"
-                target="_blank"
-                rel="noopener noreferrer">
-                itch.io
-            </a>
-
-            <a
-                class="link-button"
-                href="https://discord.gg/TgCeMFfEwG"
-                target="_blank"
-                rel="noopener noreferrer">
-                Discord
-            </a>
-
-            <a
-                class="link-button"
-                href="https://www.youtube.com/@Propro_9"
-                target="_blank"
-                rel="noopener noreferrer">
-                YouTube
-            </a>
+            <a class="link-button" href="https://propro-9.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a>
+            <a class="link-button" href="https://discord.gg/TgCeMFfEwG" target="_blank" rel="noopener noreferrer">Discord</a>
+            <a class="link-button" href="https://www.youtube.com/@Propro_9" target="_blank" rel="noopener noreferrer">YouTube</a>
         </div>
 
         <div class="copyright">
@@ -417,9 +466,24 @@ a,
     </footer>
 
     <script>
-        const randomVideoButton =
-            document.getElementById("random-video-button");
+        // Sidebar Toggle Logic
+        const sidebarToggle = document.getElementById("sidebar-toggle-btn");
+        const sidebar = document.getElementById("sidebar");
 
+        sidebarToggle.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevents click from bubbling to document
+            sidebar.classList.toggle("open");
+        });
+
+        // Close sidebar when clicking outside of it
+        document.addEventListener("click", (e) => {
+            if (sidebar.classList.contains("open") && !sidebar.contains(e.target) && e.target !== sidebarToggle) {
+                sidebar.classList.remove("open");
+            }
+        });
+
+        // Random Video Logic
+        const randomVideoButton = document.getElementById("random-video-button");
         const randomVideos = [
             "https://www.youtube.com/watch?v=jNQXAC9IVRw",
             "https://www.youtube.com/watch?v=9bZkp7q19f0",
@@ -433,21 +497,13 @@ a,
         ];
 
         randomVideoButton.addEventListener("click", () => {
-            const randomIndex =
-                Math.floor(Math.random() * randomVideos.length);
-
-            window.open(
-                randomVideos[randomIndex],
-                "_blank",
-                "noopener,noreferrer"
-            );
+            const randomIndex = Math.floor(Math.random() * randomVideos.length);
+            window.open(randomVideos[randomIndex], "_blank", "noopener,noreferrer");
         });
 
-        const cursorDot =
-            document.getElementById("cursor-dot");
-
-        const cursorGlow =
-            document.getElementById("cursor-glow");
+        // Custom Cursor Logic
+        const cursorDot = document.getElementById("cursor-dot");
+        const cursorGlow = document.getElementById("cursor-glow");
 
         let mouseX = window.innerWidth / 2;
         let mouseY = window.innerHeight / 2;
@@ -469,9 +525,9 @@ a,
             cursorGlow.style.opacity = "0";
         });
 
-        document
-            .querySelectorAll("a, button")
-            .forEach(element => {
+        // Apply interactive state to all clickable elements
+        function attachCursorEvents() {
+            document.querySelectorAll("a, button").forEach(element => {
                 element.addEventListener("mouseenter", () => {
                     cursorDot.classList.add("interactive");
                 });
@@ -480,6 +536,9 @@ a,
                     cursorDot.classList.remove("interactive");
                 });
             });
+        }
+        
+        attachCursorEvents();
 
         document.addEventListener("mousedown", () => {
             cursorDot.classList.add("pressed");
