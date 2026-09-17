@@ -1,224 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Propro9</title>
-    <meta name="description" content="Propro9">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-            --background: #0b0c10;
-            --text: #f0f2f6;
-            --muted: #9299a8;
-            --dim: #5f6674;
-            --accent-bright: #1e6edb;
-        }
-        html, body { min-height: 100%; background: var(--background); }
-        body {
-            min-height: 100vh;
-            overflow: hidden;
-            color: var(--text);
-            font-family: "Courier New", Courier, monospace;
-            background:
-                radial-gradient(circle at 76% 10%, rgba(0, 71, 171, .15), transparent 31%),
-                radial-gradient(circle at 18% 84%, rgba(30, 110, 219, .1), transparent 32%),
-                var(--background);
-        }
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background:
-                linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,.6), transparent 95%);
-            z-index: 0;
-        }
-        .vignette {
-            position: fixed; inset: 0; pointer-events: none; z-index: 3;
-            box-shadow: inset 0 0 200px rgba(0,0,0,.85);
-        }
-        .ambient {
-            position: fixed; width: 600px; height: 600px; left: 50%; top: 50%;
-            transform: translate(-50%, -50%); border-radius: 50%;
-            background: radial-gradient(circle, rgba(30,110,219,.12), rgba(0,71,171,.05) 40%, transparent 70%);
-            filter: blur(40px); pointer-events: none; z-index: 0;
-            animation: ambientFloat 15s ease-in-out infinite alternate;
-        }
-        @keyframes ambientFloat {
-            from { transform: translate(-55%, -55%) scale(.9); }
-            to { transform: translate(-45%, -45%) scale(1.1); }
-        }
-        a, button { font: inherit; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propro9</title>
+<meta name="description" content="Propro9">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--background:#0b0c10;--text:#f0f2f6;--muted:#9299a8;--dim:#5f6674;--accent-bright:#1e6edb}
+html,body{min-height:100%;background:var(--background)}
+body{min-height:100vh;overflow:hidden;color:var(--text);font-family:"Courier New",Courier,monospace;background:radial-gradient(circle at 76% 10%,rgba(0,71,171,.15),transparent 31%),radial-gradient(circle at 18% 84%,rgba(30,110,219,.1),transparent 32%),var(--background)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.6),transparent 95%);z-index:0}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:3;box-shadow:inset 0 0 200px rgba(0,0,0,.85)}
+.ambient{position:fixed;width:600px;height:600px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(30,110,219,.12),rgba(0,71,171,.05) 40%,transparent 70%);filter:blur(40px);pointer-events:none;z-index:0;animation:ambientFloat 15s ease-in-out infinite alternate}
+@keyframes ambientFloat{from{transform:translate(-55%,-55%) scale(.9)}to{transform:translate(-45%,-45%) scale(1.1)}}
+a,button{font:inherit}
 
-        /* Apple-inspired liquid glass with SVG turbulence refraction. */
-        .liquid-glass {
-            position: relative;
-            overflow: hidden;
-            isolation: isolate;
-            background: linear-gradient(135deg, rgba(255,255,255,.20), rgba(255,255,255,.055) 38%, rgba(255,255,255,.10) 52%, rgba(255,255,255,.025));
-            backdrop-filter: blur(22px) saturate(145%) brightness(1.12);
-            -webkit-backdrop-filter: blur(22px) saturate(145%) brightness(1.12);
-            border: 1px solid rgba(255,255,255,.14);
-            border-top-color: rgba(255,255,255,.34);
-            border-left-color: rgba(255,255,255,.20);
-            border-right-color: rgba(255,255,255,.07);
-            border-bottom-color: rgba(255,255,255,.05);
-            box-shadow:
-                inset 1px 1px 1px rgba(255,255,255,.30),
-                inset -10px -10px 25px rgba(0,0,0,.16),
-                inset 10px 10px 18px rgba(255,255,255,.06),
-                0 12px 32px rgba(0,0,0,.28),
-                0 1px 0 rgba(255,255,255,.18);
-        }
-        /* The turbulence layer bends the backdrop instead of merely tinting it. */
-        .liquid-glass::before {
-            content: "";
-            position: absolute;
-            inset: -14%;
-            border-radius: inherit;
-            pointer-events: none;
-            z-index: -1;
-            background: rgba(255,255,255,.035);
-            backdrop-filter: url(#glass-distortion) blur(12px) saturate(155%);
-            -webkit-backdrop-filter: url(#glass-distortion) blur(12px) saturate(155%);
-            opacity: .95;
-        }
-        .liquid-glass::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 1;
-            background: linear-gradient(120deg, rgba(255,255,255,.45), rgba(255,255,255,.12) 14%, transparent 35%, rgba(255,255,255,.03) 66%, rgba(255,255,255,.14));
-            opacity: .72;
-        }
-        .liquid-glass { color: inherit; }
-        .liquid-glass > * { position: relative; z-index: 2; }
-
-        .random-video, .sidebar-toggle {
-            position: fixed; top: 30px; z-index: 20; width: 52px; height: 52px;
-            display: grid; place-items: center; color: rgba(255,255,255,.88);
-            font-size: 18px; border-radius: 50%; cursor: pointer;
-            transition: all .35s cubic-bezier(.22,1,.36,1);
-        }
-        .random-video { right: 30px; }
-        .sidebar-toggle { left: 30px; }
-        .random-video:hover, .sidebar-toggle:hover {
-            color: white; background: rgba(255,255,255,.12);
-            box-shadow: inset 1px 1px 2px rgba(255,255,255,.38), inset -5px -8px 18px rgba(0,0,0,.2), 0 18px 30px rgba(30,110,219,.18);
-            transform: translateY(-2px) scale(1.02);
-        }
-        .random-video:active, .sidebar-toggle:active { transform: translateY(1px) scale(.98); }
-
-        .sidebar {
-            position: fixed; top: 100px; left: 30px; width: 260px; padding: 30px 20px;
-            border-radius: 30px; z-index: 15;
-            background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
-            transform: translateX(-150%); opacity: 0; pointer-events: none;
-            transition: all .6s cubic-bezier(.16,1,.3,1);
-        }
-        .sidebar.open { transform: translateX(0); opacity: 1; pointer-events: auto; }
-        .sidebar-nav { display: flex; flex-direction: column; gap: 16px; }
-        .liquid-button {
-            position: relative; padding: 16px; color: rgba(255,255,255,.8);
-            text-align: center; font-weight: bold; font-size: 14px; border-radius: 16px;
-            background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
-            border: 1px solid rgba(255,255,255,.08);
-            box-shadow: inset 1px 1px 2px rgba(255,255,255,.18), inset -4px -6px 10px rgba(0,0,0,.18), 0 8px 18px rgba(0,0,0,.1);
-            cursor: pointer; transition: all .2s ease;
-        }
-        .liquid-button:hover { color: white; background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.03)); border-color: rgba(255,255,255,.18); transform: translateY(-2px); }
-        .liquid-button:active { transform: translateY(1px); }
-
-        .footer { position: fixed; left: 50%; bottom: 24px; width: min(720px, calc(100% - 40px)); transform: translateX(-50%); z-index: 10; text-align: center; }
-        .links { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
-        .link-button { display: inline-flex; align-items: center; justify-content: center; min-width: 100px; padding: 12px 20px; color: var(--muted); text-decoration: none; border-radius: 20px; font-size: 12px; font-weight: bold; transition: all .3s ease; }
-        .link-button:hover { color: white; transform: translateY(-3px); }
-        .copyright { color: var(--dim); font-size: 10px; line-height: 1.65; }
-        .copyright strong { color: var(--muted); font-weight: normal; }
-
-        @media (pointer: fine) { html, body, body *, a, button, img { cursor: none !important; } }
-        .cursor-dot { position: fixed; top: 0; left: 0; width: 9px; height: 9px; border-radius: 50%; background: #e6f0ff; box-shadow: 0 0 0 1px rgba(0,0,0,.35), 0 0 10px rgba(230,240,255,.34); pointer-events: none; transform: translate(-50%,-50%); opacity: 0; z-index: 9999; transition: opacity .1s ease, width .1s ease, height .1s ease, background .1s ease; }
-        .cursor-dot.interactive { width: 14px; height: 14px; background: rgba(230,240,255,.12); border: 1px solid #e6f0ff; box-shadow: 0 0 11px rgba(230,240,255,.26); }
-        .cursor-dot.pressed { width: 6px; height: 6px; }
-        .cursor-glow { position: fixed; top: 0; left: 0; width: 350px; height: 350px; border-radius: 50%; background: radial-gradient(circle, rgba(30,110,219,.14), rgba(30,110,219,.065) 32%, rgba(30,110,219,.025) 55%, transparent 72%); filter: blur(10px); pointer-events: none; transform: translate(-50%,-50%); opacity: 0; z-index: 1; transition: opacity .18s ease; }
-        @media (pointer: coarse) { .cursor-dot, .cursor-glow { display: none; } }
-        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
-    </style>
+/* Adapted from the referenced Vue card: strong SVG displacement, restrained blur,
+   and inset specular edges create the rounded liquid-glass refraction. */
+.liquid-glass{position:relative;overflow:hidden;isolation:isolate;background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.055) 38%,rgba(255,255,255,.10) 52%,rgba(255,255,255,.025));backdrop-filter:brightness(1.1) blur(3px) url(#glass-distortion) saturate(145%);-webkit-backdrop-filter:brightness(1.1) blur(3px) saturate(145%);border:1px solid rgba(255,255,255,.16);border-top-color:rgba(255,255,255,.42);border-left-color:rgba(255,255,255,.24);border-right-color:rgba(255,255,255,.08);border-bottom-color:rgba(255,255,255,.05);box-shadow:inset 6px 6px 0 -6px rgba(255,255,255,.72),inset 0 0 8px 1px rgba(255,255,255,.42),inset -10px -10px 25px rgba(0,0,0,.16),0 12px 32px rgba(0,0,0,.32),0 1px 0 rgba(255,255,255,.2)}
+.liquid-glass:before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;background:linear-gradient(120deg,rgba(255,255,255,.48),rgba(255,255,255,.12) 14%,transparent 35%,rgba(255,255,255,.03) 66%,rgba(255,255,255,.15));opacity:.72}
+.liquid-glass:after{content:"";position:absolute;inset:1px;border-radius:inherit;pointer-events:none;z-index:1;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 34%,rgba(0,0,0,.06));opacity:.7}
+.liquid-glass>*{position:relative;z-index:2}
+.random-video,.sidebar-toggle{position:fixed;top:30px;z-index:20;width:52px;height:52px;display:grid;place-items:center;color:rgba(255,255,255,.88);font-size:18px;border-radius:50%;cursor:pointer;transition:all .35s cubic-bezier(.22,1,.36,1)}
+.random-video{right:30px}.sidebar-toggle{left:30px}
+.random-video:hover,.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,.12);box-shadow:inset 1px 1px 2px rgba(255,255,255,.45),inset -5px -8px 18px rgba(0,0,0,.2),0 18px 30px rgba(30,110,219,.18);transform:translateY(-2px) scale(1.02)}
+.random-video:active,.sidebar-toggle:active{transform:translateY(1px) scale(.98)}
+.sidebar{position:fixed;top:100px;left:30px;width:260px;padding:30px 20px;border-radius:30px;z-index:15;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));transform:translateX(-150%);opacity:0;pointer-events:none;transition:all .6s cubic-bezier(.16,1,.3,1)}
+.sidebar.open{transform:translateX(0);opacity:1;pointer-events:auto}.sidebar-nav{display:flex;flex-direction:column;gap:16px}
+.liquid-button{position:relative;padding:16px;color:rgba(255,255,255,.8);text-align:center;font-weight:bold;font-size:14px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid rgba(255,255,255,.1);box-shadow:inset 1px 1px 2px rgba(255,255,255,.2),inset -4px -6px 10px rgba(0,0,0,.18),0 8px 18px rgba(0,0,0,.1);cursor:pointer;transition:all .2s ease}
+.liquid-button:hover{color:#fff;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.03));border-color:rgba(255,255,255,.22);transform:translateY(-2px)}.liquid-button:active{transform:translateY(1px)}
+.footer{position:fixed;left:50%;bottom:24px;width:min(720px,calc(100% - 40px));transform:translateX(-50%);z-index:10;text-align:center}.links{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px}.link-button{display:inline-flex;align-items:center;justify-content:center;min-width:100px;padding:12px 20px;color:var(--muted);text-decoration:none;border-radius:20px;font-size:12px;font-weight:bold;transition:all .3s ease}.link-button:hover{color:#fff;transform:translateY(-3px)}.copyright{color:var(--dim);font-size:10px;line-height:1.65}.copyright strong{color:var(--muted);font-weight:normal}
+@media(pointer:fine){html,body,body *,a,button,img{cursor:none!important}}.cursor-dot{position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;background:#e6f0ff;box-shadow:0 0 0 1px rgba(0,0,0,.35),0 0 10px rgba(230,240,255,.34);pointer-events:none;transform:translate(-50%,-50%);opacity:0;z-index:9999;transition:opacity .1s ease,width .1s ease,height .1s ease}.cursor-dot.interactive{width:14px;height:14px;background:rgba(230,240,255,.12);border:1px solid #e6f0ff;box-shadow:0 0 11px rgba(230,240,255,.26)}.cursor-dot.pressed{width:6px;height:6px}.cursor-glow{position:fixed;top:0;left:0;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(30,110,219,.14),rgba(30,110,219,.065) 32%,rgba(30,110,219,.025) 55%,transparent 72%);filter:blur(10px);pointer-events:none;transform:translate(-50%,-50%);opacity:0;z-index:1;transition:opacity .18s ease}@media(pointer:coarse){.cursor-dot,.cursor-glow{display:none}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
+</style>
 </head>
 <body>
-    <!-- SVG turbulence used by the glass layers for subtle refraction. -->
-    <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
-        <filter id="glass-distortion" x="-20%" y="-20%" width="140%" height="140%">
-            <feTurbulence type="turbulence" baseFrequency="0.008" numOctaves="2" seed="7" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="28" xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-    </svg>
-
-    <div class="ambient"></div>
-    <div class="vignette"></div>
-    <div class="cursor-glow" id="cursor-glow"></div>
-    <div class="cursor-dot" id="cursor-dot"></div>
-
-    <button class="sidebar-toggle liquid-glass" id="sidebar-toggle-btn" aria-label="Toggle Sidebar" title="Menu">☰</button>
-    <aside class="sidebar liquid-glass" id="sidebar">
-        <nav class="sidebar-nav">
-            <button class="liquid-button">Placeholder 1</button>
-            <button class="liquid-button">Placeholder 2</button>
-            <button class="liquid-button">Placeholder 3</button>
-        </nav>
-    </aside>
-    <button class="random-video liquid-glass" id="random-video-button" type="button" aria-label="Open a random YouTube video" title="Random YouTube Video">▶</button>
-
-    <footer class="footer">
-        <div class="links">
-            <a class="link-button liquid-glass" href="https://propro-9.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a>
-            <a class="link-button liquid-glass" href="https://discord.gg/TgCeMFfEwG" target="_blank" rel="noopener noreferrer">Discord</a>
-            <a class="link-button liquid-glass" href="https://www.youtube.com/@Propro_9" target="_blank" rel="noopener noreferrer">YouTube</a>
-        </div>
-        <div class="copyright">© 2026 <strong>Bowen S.</strong><br>All rights reserved.</div>
-    </footer>
-
-    <script>
-        const sidebarToggle = document.getElementById("sidebar-toggle-btn");
-        const sidebar = document.getElementById("sidebar");
-        sidebarToggle.addEventListener("click", e => { e.stopPropagation(); sidebar.classList.toggle("open"); });
-        document.addEventListener("click", e => { if (sidebar.classList.contains("open") && !sidebar.contains(e.target) && e.target !== sidebarToggle) sidebar.classList.remove("open"); });
-
-        const randomVideoButton = document.getElementById("random-video-button");
-        const randomVideos = [
-            "https://www.youtube.com/watch?v=jNQXAC9IVRw", "https://www.youtube.com/watch?v=9bZkp7q19f0", "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-            "https://www.youtube.com/watch?v=GHiOrkQlIGM", "https://www.youtube.com/watch?v=IVYjJ5eEmuk", "https://www.youtube.com/watch?v=nOJd3xoKMyI",
-            "https://www.youtube.com/watch?v=v3Jr9dGHbG4", "https://www.youtube.com/watch?v=FtutLA63Cp8", "https://www.youtube.com/watch?v=tVlKLpxyCBY"
-        ];
-        randomVideoButton.addEventListener("click", () => window.open(randomVideos[Math.floor(Math.random() * randomVideos.length)], "_blank", "noopener,noreferrer"));
-
-        const cursorDot = document.getElementById("cursor-dot");
-        const cursorGlow = document.getElementById("cursor-glow");
-        let mouseX = innerWidth / 2, mouseY = innerHeight / 2, glowX = mouseX, glowY = mouseY;
-        document.addEventListener("mousemove", event => {
-            mouseX = event.clientX; mouseY = event.clientY;
-            cursorDot.style.left = `${mouseX}px`; cursorDot.style.top = `${mouseY}px`;
-            cursorDot.style.opacity = "1"; cursorGlow.style.opacity = "1";
-        });
-        document.addEventListener("mouseleave", () => { cursorDot.style.opacity = "0"; cursorGlow.style.opacity = "0"; });
-        document.querySelectorAll("a, button").forEach(element => {
-            element.addEventListener("mouseenter", () => cursorDot.classList.add("interactive"));
-            element.addEventListener("mouseleave", () => cursorDot.classList.remove("interactive"));
-        });
-        document.addEventListener("mousedown", () => cursorDot.classList.add("pressed"));
-        document.addEventListener("mouseup", () => cursorDot.classList.remove("pressed"));
-        function updateCursorGlow() {
-            glowX += (mouseX - glowX) * .12; glowY += (mouseY - glowY) * .12;
-            cursorGlow.style.left = `${glowX}px`; cursorGlow.style.top = `${glowY}px`;
-            requestAnimationFrame(updateCursorGlow);
-        }
-        updateCursorGlow();
-    </script>
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><filter id="glass-distortion" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="turbulence" baseFrequency="0.01" numOctaves="2" seed="7" result="turbulence"/><feDisplacementMap in="SourceGraphic" in2="turbulence" scale="200" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+<div class="ambient"></div><div class="vignette"></div><div class="cursor-glow" id="cursor-glow"></div><div class="cursor-dot" id="cursor-dot"></div>
+<button class="sidebar-toggle liquid-glass" id="sidebar-toggle-btn" aria-label="Toggle Sidebar" title="Menu">☰</button>
+<aside class="sidebar liquid-glass" id="sidebar"><nav class="sidebar-nav"><button class="liquid-button">Placeholder 1</button><button class="liquid-button">Placeholder 2</button><button class="liquid-button">Placeholder 3</button></nav></aside>
+<button class="random-video liquid-glass" id="random-video-button" type="button" aria-label="Open a random YouTube video" title="Random YouTube Video">▶</button>
+<footer class="footer"><div class="links"><a class="link-button liquid-glass" href="https://propro-9.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a><a class="link-button liquid-glass" href="https://discord.gg/TgCeMFfEwG" target="_blank" rel="noopener noreferrer">Discord</a><a class="link-button liquid-glass" href="https://www.youtube.com/@Propro_9" target="_blank" rel="noopener noreferrer">YouTube</a></div><div class="copyright">© 2026 <strong>Bowen S.</strong><br>All rights reserved.</div></footer>
+<script>
+const sidebarToggle=document.getElementById('sidebar-toggle-btn'),sidebar=document.getElementById('sidebar');sidebarToggle.addEventListener('click',e=>{e.stopPropagation();sidebar.classList.toggle('open')});document.addEventListener('click',e=>{if(sidebar.classList.contains('open')&&!sidebar.contains(e.target)&&e.target!==sidebarToggle)sidebar.classList.remove('open')});
+const randomVideoButton=document.getElementById('random-video-button'),randomVideos=['https://www.youtube.com/watch?v=jNQXAC9IVRw','https://www.youtube.com/watch?v=9bZkp7q19f0','https://www.youtube.com/watch?v=dQw4w9WgXcQ','https://www.youtube.com/watch?v=GHiOrkQlIGM','https://www.youtube.com/watch?v=IVYjJ5eEmuk','https://www.youtube.com/watch?v=nOJd3xoKMyI','https://www.youtube.com/watch?v=v3Jr9dGHbG4','https://www.youtube.com/watch?v=FtutLA63Cp8','https://www.youtube.com/watch?v=tVlKLpxyCBY'];randomVideoButton.addEventListener('click',()=>window.open(randomVideos[Math.floor(Math.random()*randomVideos.length)],'_blank','noopener,noreferrer'));
+const cursorDot=document.getElementById('cursor-dot'),cursorGlow=document.getElementById('cursor-glow');let mouseX=innerWidth/2,mouseY=innerHeight/2,glowX=mouseX,glowY=mouseY;document.addEventListener('mousemove',e=>{mouseX=e.clientX;mouseY=e.clientY;cursorDot.style.left=`${mouseX}px`;cursorDot.style.top=`${mouseY}px`;cursorDot.style.opacity='1';cursorGlow.style.opacity='1'});document.addEventListener('mouseleave',()=>{cursorDot.style.opacity='0';cursorGlow.style.opacity='0'});document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>cursorDot.classList.add('interactive'));el.addEventListener('mouseleave',()=>cursorDot.classList.remove('interactive'))});document.addEventListener('mousedown',()=>cursorDot.classList.add('pressed'));document.addEventListener('mouseup',()=>cursorDot.classList.remove('pressed'));function updateCursorGlow(){glowX+=(mouseX-glowX)*.12;glowY+=(mouseY-glowY)*.12;cursorGlow.style.left=`${glowX}px`;cursorGlow.style.top=`${glowY}px`;requestAnimationFrame(updateCursorGlow)}updateCursorGlow();
+</script>
 </body>
 </html>
