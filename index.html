@@ -54,9 +54,6 @@
             from { transform: translate(-54%,-52%) scale(.95); }
             to { transform: translate(-46%,-47%) scale(1.07); }
         }
-        .center-mark { position: fixed; left: 50%; top: 45%; transform: translate(-50%,-50%); z-index: 1; user-select: none; pointer-events: none; text-align: center; }
-        .center-mark h1 { font-size: clamp(52px, 10vw, 140px); line-height: .9; letter-spacing: -.075em; color: rgba(240,242,246,.055); text-shadow: 0 0 42px rgba(30,110,219,.08); }
-        .center-line { width: min(280px,36vw); height: 1px; margin: 18px auto 0; background: linear-gradient(90deg, transparent, rgba(30,110,219,.42), transparent); }
         a, button { font: inherit; }
         .random-video {
             position: fixed; top: 24px; right: 24px; z-index: 10;
@@ -67,8 +64,7 @@
         }
         .random-video:hover { color: white; background: var(--panel-hover); border-color: var(--accent-bright); transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(0,71,171,.15); }
         .random-video:active { transform: translateY(0); }
-        .saul { position: fixed; left: 18px; bottom: 16px; z-index: 2; width: 92px; height: 58px; object-fit: cover; object-position: 50% 24%; opacity: .16; filter: saturate(.55) contrast(1.03); border-radius: 7px; border: 1px solid rgba(255,255,255,.06); transition: all .22s ease; }
-        .saul:hover { opacity: .82; filter: saturate(.9) contrast(1.04); transform: translateY(-3px) scale(1.035); }
+        
         .footer { position: fixed; left: 50%; bottom: 24px; width: min(720px,calc(100% - 40px)); transform: translateX(-50%); z-index: 10; text-align: center; }
         .links { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
         .link-button { display: inline-flex; align-items: center; justify-content: center; min-width: 112px; padding: 11px 17px; color: var(--text); text-decoration: none; background: linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,0)),var(--panel); border: 1px solid var(--border); border-radius: 7px; font-size: 12px; font-weight: bold; backdrop-filter: blur(14px); transition: all .18s ease; }
@@ -82,7 +78,7 @@
         .cursor-glow { position: fixed; top: 0; left: 0; width: 350px; height: 350px; border-radius: 50%; background: radial-gradient(circle,rgba(30,110,219,.14),rgba(30,110,219,.065) 32%,rgba(30,110,219,.025) 55%,transparent 72%); filter: blur(10px); pointer-events: none; transform: translate(-50%,-50%); opacity: 0; z-index: 1; transition: opacity .18s ease; }
         @media (pointer:coarse) { .cursor-dot,.cursor-glow { display:none; } }
         @media (prefers-reduced-motion:reduce) { .ambient { animation:none; } }
-        @media (max-width:620px) { .random-video { top:16px; right:16px; } .footer { bottom:18px; } .link-button { min-width:96px; padding:10px 13px; font-size:11px; } .saul { width:68px; height:44px; left:12px; bottom:12px; } .center-mark { top:41%; } }
+        @media (max-width:620px) { .random-video { top:16px; right:16px; } .footer { bottom:18px; } .link-button { min-width:96px; padding:10px 13px; font-size:11px; } }
     </style>
 </head>
 <body>
@@ -90,9 +86,9 @@
     <div class="vignette"></div>
     <div class="cursor-glow" id="cursor-glow"></div>
     <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="center-mark" aria-hidden="true"><h1>Propro9</h1><div class="center-line"></div></div>
+    
     <button class="random-video" id="random-video-button" type="button" aria-label="Open a random YouTube video" title="Random YouTube Video">▶</button>
-    <img class="saul" src="saul.png" alt="" title="he is here">
+    
     <footer class="footer">
         <div class="links">
             <a class="link-button" href="https://propro-9.itch.io/" target="_blank" rel="noopener noreferrer">itch.io</a>
@@ -109,7 +105,7 @@
         let mouseX = innerWidth / 2, mouseY = innerHeight / 2, glowX = mouseX, glowY = mouseY;
         document.addEventListener("mousemove", event => { mouseX = event.clientX; mouseY = event.clientY; cursorDot.style.left = `${mouseX}px`; cursorDot.style.top = `${mouseY}px`; cursorDot.style.opacity = "1"; cursorGlow.style.opacity = "1"; });
         document.addEventListener("mouseleave", () => { cursorDot.style.opacity = "0"; cursorGlow.style.opacity = "0"; });
-        document.querySelectorAll("a, button, .saul").forEach(element => { element.addEventListener("mouseenter", () => cursorDot.classList.add("interactive")); element.addEventListener("mouseleave", () => cursorDot.classList.remove("interactive")); });
+        document.querySelectorAll("a, button").forEach(element => { element.addEventListener("mouseenter", () => cursorDot.classList.add("interactive")); element.addEventListener("mouseleave", () => cursorDot.classList.remove("interactive")); });
         document.addEventListener("mousedown", () => cursorDot.classList.add("pressed"));
         document.addEventListener("mouseup", () => cursorDot.classList.remove("pressed"));
         function updateCursorGlow() { glowX += (mouseX - glowX) * .12; glowY += (mouseY - glowY) * .12; cursorGlow.style.left = `${glowX}px`; cursorGlow.style.top = `${glowY}px`; requestAnimationFrame(updateCursorGlow); }
