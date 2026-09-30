@@ -6,6 +6,8 @@
     <title>Propro9</title>
     <meta name="description" content="Propro9">
     <link rel="icon" type="image/png" href="favicon.png">
+    <!-- FontAwesome for official service icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
@@ -19,12 +21,7 @@
             --accent-bright: #1e6edb;
             --accent-soft: rgba(0, 71, 171, .14);
         }
-
-        html, body {
-            min-height: 100%;
-            background: var(--background);
-        }
-
+        html, body { min-height: 100%; background: var(--background); }
         body {
             min-height: 100vh;
             overflow: hidden;
@@ -35,7 +32,6 @@
                 radial-gradient(circle at 18% 84%, rgba(30, 110, 219, .06), transparent 32%),
                 var(--background);
         }
-
         body::before {
             content: "";
             position: fixed;
@@ -48,174 +44,79 @@
             mask-image: linear-gradient(to bottom, rgba(0,0,0,.46), transparent 88%);
             z-index: 0;
         }
-
-        .vignette {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 3;
-            box-shadow: inset 0 0 180px rgba(0,0,0,.72);
-        }
-
+        .vignette { position: fixed; inset: 0; pointer-events: none; z-index: 3; box-shadow: inset 0 0 180px rgba(0,0,0,.72); }
         .ambient {
-            position: fixed;
-            width: 520px;
-            height: 520px;
-            left: 50%;
-            top: 45%;
-            transform: translate(-50%,-50%);
-            border-radius: 50%;
+            position: fixed; width: 520px; height: 520px; left: 50%; top: 45%;
+            transform: translate(-50%,-50%); border-radius: 50%;
             background: radial-gradient(circle, rgba(30,110,219,.10), rgba(0,71,171,.05) 38%, transparent 70%);
-            filter: blur(26px);
-            pointer-events: none;
-            z-index: 0;
+            filter: blur(26px); pointer-events: none; z-index: 0;
             animation: ambientFloat 11s ease-in-out infinite alternate;
         }
-
         @keyframes ambientFloat {
             from { transform: translate(-54%,-52%) scale(.95); }
             to { transform: translate(-46%,-47%) scale(1.07); }
         }
-
-        a, button {
-            font: inherit;
-        }
-
+        a, button { font: inherit; }
         .random-video {
-            position: fixed;
-            top: 24px;
-            right: 24px;
-            z-index: 10;
-            width: 46px;
-            height: 46px;
-            display: grid;
-            place-items: center;
-            color: var(--muted);
-            background: rgba(22,24,32,.72);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            font-size: 17px;
-            backdrop-filter: blur(14px);
-            cursor: pointer;
-            transition: all .18s ease;
+            position: fixed; top: 24px; right: 24px; z-index: 10;
+            width: 46px; height: 46px; display: grid; place-items: center;
+            color: var(--muted); background: rgba(22,24,32,.72);
+            border: 1px solid var(--border); border-radius: 50%; font-size: 17px;
+            backdrop-filter: blur(14px); cursor: pointer; transition: all .18s ease;
         }
-
-        .random-video:hover {
-            color: white;
-            background: var(--panel-hover);
-            border-color: var(--accent-bright);
-            transform: translateY(-2px) rotate(5deg);
-            box-shadow: 0 10px 28px rgba(0,71,171,.15);
-        }
-
-        .random-video:active {
-            transform: translateY(0);
-        }
-
-        .footer {
-            position: fixed;
-            left: 50%;
-            bottom: 24px;
-            width: min(720px, calc(100% - 40px));
-            transform: translateX(-50%);
-            z-index: 10;
-            text-align: center;
-        }
-
-        .links {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 14px;
-        }
-
-        .link-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            min-width: 112px;
-            padding: 11px 17px;
-            color: var(--text);
-            text-decoration: none;
-            background:
-                linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,0)),
-                var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 7px;
-            font-size: 12px;
-            font-weight: bold;
-            backdrop-filter: blur(14px);
-            transition: all .18s ease;
-        }
-
-        .link-button:hover {
-            color: white;
-            background:
-                linear-gradient(180deg,rgba(255,255,255,.03),transparent),
-                var(--accent-soft);
-            border-color: var(--accent-bright);
-            transform: translateY(-3px);
-            box-shadow:
-                0 9px 28px rgba(0,71,171,.14),
-                inset 0 0 22px rgba(30,110,219,.035);
-        }
-
-        .link-button img {
-            width: 17px;
-            height: 17px;
-            object-fit: contain;
-            filter: invert(1);
-            opacity: .82;
-            transition: opacity .18s ease;
-        }
-
-        .link-button:hover img {
-            opacity: 1;
-        }
-
-        .patreon img {
-            width: 18px;
-            height: 18px;
-        }
-
-        .discord img {
-            width: 18px;
-            height: 18px;
-        }
-
-        .youtube img {
-            width: 19px;
-            height: 19px;
-        }
-
-        .itch img {
-            width: 18px;
-            height: 18px;
-        }
-
-        .copyright {
-            color: var(--dim);
-            font-size: 10px;
-            line-height: 1.65;
-        }
-
-        .copyright strong {
-            color: var(--muted);
-            font-weight: normal;
-        }
-
-        @media (pointer:fine) {
-            html, body, body *, a, button, img {
-                cursor: none !important;
-            }
-        }
-
-        .cursor-dot {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 9px;
-            height: 9px;
+        .random-video:hover { color: white; background: var(--panel-hover); border-color: var(--accent-bright); transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(0,71,171,.15); }
+        .random-video:active { transform: translateY(0); }
+        
+        .footer { position: fixed; left: 50%; bottom: 24px; width: min(720px,calc(100% - 40px)); transform: translateX(-50%); z-index: 10; text-align: center; }
+        .links { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+        
+        /* Added gap property to space the icon from the text */
+        .link-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 112px; padding: 11px 17px; color: var(--text); text-decoration: none; background: linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,0)),var(--panel); border: 1px solid var(--border); border-radius: 7px; font-size: 12px; font-weight: bold; backdrop-filter: blur(14px); transition: all .18s ease; }
+        .link-button i { font-size: 14px; } /* Slightly larger icon */
+        .link-button:hover { color: white; background: linear-gradient(180deg,rgba(255,255,255,.03),transparent),var(--accent-soft); border-color: var(--accent-bright); transform: translateY(-3px); box-shadow: 0 9px 28px rgba(0,71,171,.14), inset 0 0 22px rgba(30,110,219,.035); }
+        
+        .copyright { color: var(--dim); font-size: 10px; line-height: 1.65; }
+        .copyright strong { color: var(--muted); font-weight: normal; }
+        @media (pointer:fine) { html,body,body *,a,button,img { cursor: none !important; } }
+        .cursor-dot { position: fixed; top: 0; left: 0; width: 9px; height: 9px; border-radius: 50%; background: #e6f0ff; box-shadow: 0 0 0 1px rgba(0,0,0,.35),0 0 10px rgba(230,240,255,.34); pointer-events: none; transform: translate(-50%,-50%); opacity: 0; z-index: 9999; transition: opacity .1s ease,width .1s ease,height .1s ease; }
+        .cursor-dot.interactive { width: 14px; height: 14px; background: rgba(230,240,255,.12); border: 1px solid #e6f0ff; box-shadow: 0 0 11px rgba(230,240,255,.26); }
+        .cursor-dot.pressed { width: 6px; height: 6px; }
+        .cursor-glow { position: fixed; top: 0; left: 0; width: 350px; height: 350px; border-radius: 50%; background: radial-gradient(circle,rgba(30,110,219,.14),rgba(30,110,219,.065) 32%,rgba(30,110,219,.025) 55%,transparent 72%); filter: blur(10px); pointer-events: none; transform: translate(-50%,-50%); opacity: 0; z-index: 1; transition: opacity .18s ease; }
+        @media (pointer:coarse) { .cursor-dot,.cursor-glow { display:none; } }
+        @media (prefers-reduced-motion:reduce) { .ambient { animation:none; } }
+        @media (max-width:620px) { .random-video { top:16px; right:16px; } .footer { bottom:18px; } .link-button { min-width:96px; padding:10px 13px; font-size:11px; } }
+    </style>
+</head>
+<body>
+    <div class="ambient"></div>
+    <div class="vignette"></div>
+    <div class="cursor-glow" id="cursor-glow"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    
+    <button class="random-video" id="random-video-button" type="button" aria-label="Open a random YouTube video" title="Random YouTube Video">▶</button>
+    
+    <footer class="footer">
+        <div class="links">
+            <a class="link-button" href="https://propro-9.itch.io/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-itch-io"></i> itch.io</a>
+            <a class="link-button" href="https://www.patreon.com/cw/propro9" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-patreon"></i> Patreon</a>
+            <a class="link-button" href="https://discord.gg/hFQuDNbjhQ" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Discord</a>
+            <a class="link-button" href="https://www.youtube.com/@Propro_9" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i> YouTube</a>
+        </div>
+        <div class="copyright">© 2026 <strong>Bowen S.</strong><br>All rights reserved.</div>
+    </footer>
+    <script>
+        const randomVideoButton = document.getElementById("random-video-button");
+        const randomVideos = ["https://www.youtube.com/watch?v=jNQXAC9IVRw","https://www.youtube.com/watch?v=9bZkp7q19f0","https://www.youtube.com/watch?v=dQw4w9WgXcQ","https://www.youtube.com/watch?v=GHiOrkQlIGM","https://www.youtube.com/watch?v=IVYjJ5eEmuk","https://www.youtube.com/watch?v=nOJd3xoKMyI","https://www.youtube.com/watch?v=v3Jr9dGHbG4","https://www.youtube.com/watch?v=FtutLA63Cp8","https://www.youtube.com/watch?v=tVlKLpxyCBY"];
+        randomVideoButton.addEventListener("click", () => window.open(randomVideos[Math.floor(Math.random() * randomVideos.length)], "_blank", "noopener,noreferrer"));
+        const cursorDot = document.getElementById("cursor-dot"), cursorGlow = document.getElementById("cursor-glow");
+        let mouseX = innerWidth / 2, mouseY = innerHeight / 2, glowX = mouseX, glowY = mouseY;
+        document.addEventListener("mousemove", event => { mouseX = event.clientX; mouseY = event.clientY; cursorDot.style.left = `${mouseX}px`; cursorDot.style.top = `${mouseY}px`; cursorDot.style.opacity = "1"; cursorGlow.style.opacity = "1"; });
+        document.addEventListener("mouseleave", () => { cursorDot.style.opacity = "0"; cursorGlow.style.opacity = "0"; });
+        document.querySelectorAll("a, button").forEach(element => { element.addEventListener("mouseenter", () => cursorDot.classList.add("interactive")); element.addEventListener("mouseleave", () => cursorDot.classList.remove("interactive")); });
+        document.addEventListener("mousedown", () => cursorDot.classList.add("pressed"));
+        document.addEventListener("mouseup", () => cursorDot.classList.remove("pressed"));
+        function updateCursorGlow() { glowX += (mouseX - glowX) * .12; glowY += (mouseY - glowY) * .12; cursorGlow.style.left = `${glowX}px`; cursorGlow.style.top = `${glowY}px`; requestAnimationFrame(updateCursorGlow); }
+        updateCursorGlow();
+    </script>
+</body>
+</html>
