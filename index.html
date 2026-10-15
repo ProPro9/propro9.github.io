@@ -4,483 +4,495 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Propro9</title>
-    <meta name="description" content="Propro9 Portfolio">
+    <meta name="description" content="Propro9 Personal Bio">
     <link rel="icon" type="image/png" href="favicon.png">
-    <!-- FontAwesome for icons -->
+    
+    <!-- FontAwesome 6 for Social & Platform Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
         :root {
-            --background: #0b0c10;
-            --panel: rgba(22, 24, 32, .78);
-            --panel-hover: rgba(27, 30, 40, .92);
-            --border: #2a2e39;
-            --text: #f0f2f6;
-            --muted: #9299a8;
-            --dim: #5f6674;
-            --accent-bright: #1e6edb;
-            --accent-soft: rgba(0, 71, 171, .14);
-        }
-        html, body { min-height: 100%; background: var(--background); }
-        body {
-            min-height: 100vh;
-            overflow: hidden;
-            color: var(--text);
-            font-family: "Courier New", Courier, monospace;
+            --background: #000000;
+            --panel: rgba(18, 18, 20, 0.75);
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-sub: #a0a0a0;
+            --accent-glow: rgba(30, 110, 219, 0.25);
         }
 
-        /* Background Video Styles */
-        .bg-video-container {
-            position: fixed;
-            inset: 0;
-            width: 100vw;
-            height: 100vh;
+        html, body {
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            z-index: 0;
-            background: var(--background);
+            background: #000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            user-select: none;
         }
+
+        /* Video Background */
         .bg-video {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             min-width: 100%;
             min-height: 100%;
             width: auto;
             height: auto;
+            z-index: -2;
             transform: translate(-50%, -50%);
             object-fit: cover;
-            filter: brightness(0.45) contrast(1.1);
+            filter: brightness(0.65) contrast(1.05);
         }
 
-        .vignette { position: fixed; inset: 0; pointer-events: none; z-index: 3; box-shadow: inset 0 0 180px rgba(0,0,0,.82); }
-        .ambient {
-            position: fixed; width: 520px; height: 520px; left: 50%; top: 45%;
-            transform: translate(-50%,-50%); border-radius: 50%;
-            background: radial-gradient(circle, rgba(30,110,219,.15), rgba(0,71,171,.07) 38%, transparent 70%);
-            filter: blur(32px); pointer-events: none; z-index: 1;
-            animation: ambientFloat 11s ease-in-out infinite alternate;
-        }
-        @keyframes ambientFloat {
-            from { transform: translate(-54%,-52%) scale(.95); }
-            to { transform: translate(-46%,-47%) scale(1.07); }
-        }
-        a, button { font: inherit; }
-        
-        /* Top Navigation Buttons */
-        .top-left { position: fixed; top: 24px; left: 24px; z-index: 10; display: flex; gap: 12px; align-items: center; }
-        .top-right { position: fixed; top: 24px; right: 24px; z-index: 10; display: flex; gap: 12px; align-items: center; }
-
-        .icon-button {
-            width: 46px; height: 46px; display: grid; place-items: center;
-            color: var(--muted); background: rgba(22,24,32,.72);
-            border: 1px solid var(--border); border-radius: 50%; font-size: 17px;
-            backdrop-filter: blur(14px); cursor: pointer; transition: all .18s ease;
-        }
-        .icon-button:hover { color: white; background: var(--panel-hover); border-color: var(--accent-bright); transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(0,71,171,.25); }
-        .icon-button:active { transform: translateY(0); }
-
-        /* Center Profile Card (Matching your guns.lol setup) */
-        .main-container {
+        /* Overlay vignette */
+        .vignette {
             position: fixed;
             inset: 0;
-            display: grid;
-            place-items: center;
-            z-index: 5;
-            padding: 20px;
+            background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.85) 100%);
             pointer-events: none;
-        }
-        .profile-card {
-            pointer-events: auto;
-            width: min(440px, 100%);
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 32px 24px;
-            text-align: center;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes cardEntrance {
-            from { opacity: 0; transform: translateY(20px) scale(0.96); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            z-index: -1;
         }
 
-        .avatar-container {
+        /* Top Action Buttons */
+        .top-left { position: fixed; top: 24px; left: 24px; z-index: 10; }
+        .top-right { position: fixed; top: 24px; right: 24px; z-index: 10; }
+
+        .icon-button {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            color: #d0d0d0;
+            background: rgba(20, 20, 25, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 50%;
+            font-size: 16px;
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .icon-button:hover {
+            color: #fff;
+            background: rgba(40, 40, 50, 0.8);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Bio Card */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .card {
+            width: min(520px, 92vw);
+            background: var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            padding: 32px 28px 24px 28px;
+            backdrop-filter: blur(24px) saturate(140%);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Avatar Section */
+        .avatar-wrapper {
             position: relative;
             width: 96px;
             height: 96px;
-            margin: 0 auto 16px;
+            margin-bottom: 14px;
         }
-        .avatar {
+
+        .avatar-img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--border);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            border: 2px solid rgba(255,255,255,0.1);
         }
 
-        .profile-title {
-            font-size: 26px;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 6px;
-            letter-spacing: -0.5px;
+        .status-dot {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 3px solid #121214;
+            background: #747f8d; /* default offline */
         }
-        .profile-bio {
-            color: var(--muted);
-            font-size: 13px;
+
+        .status-dot.online { background: #23a55a; }
+        .status-dot.idle { background: #f0b232; }
+        .status-dot.dnd { background: #f23f43; }
+
+        .username {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .tagline {
+            color: var(--text-sub);
+            font-size: 14px;
             margin-bottom: 12px;
         }
-        .profile-location {
+
+        .location-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: var(--dim);
+            background: rgba(255, 255, 255, 0.06);
+            padding: 4px 12px;
+            border-radius: 12px;
             font-size: 12px;
+            color: #d0d0d0;
             margin-bottom: 20px;
         }
 
-        /* Live Lanyard Discord Status Card */
-        .discord-status-card {
-            background: rgba(15, 17, 23, 0.65);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px 14px;
+        /* Lanyard Status Box */
+        .lanyard-box {
+            width: 100%;
+            background: rgba(10, 10, 12, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 12px 16px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+            margin-bottom: 22px;
             text-align: left;
-            margin-bottom: 20px;
-            transition: border-color 0.2s ease;
         }
-        .discord-status-card:hover {
-            border-color: rgba(30, 110, 219, 0.4);
-        }
-        .discord-avatar-wrapper {
-            position: relative;
-            flex-shrink: 0;
-            width: 48px;
-            height: 48px;
-        }
-        .discord-avatar {
-            width: 100%;
-            height: 100%;
+
+        .lanyard-avatar {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
         }
-        .status-dot {
-            position: absolute;
-            bottom: 1px;
-            right: 1px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: 2px solid #0f1117;
-        }
-        .status-online { background: #23a55a; }
-        .status-idle { background: #f0b232; }
-        .status-dnd { background: #f23f43; }
-        .status-offline { background: #80848e; }
 
-        .discord-info {
-            flex-grow: 1;
-            min-width: 0;
-        }
-        .discord-username {
-            font-size: 13px;
-            font-weight: bold;
-            color: var(--text);
-            white-space: nowrap;
+        .lanyard-details {
+            flex: 1;
             overflow: hidden;
-            text-overflow: ellipsis;
         }
-        .discord-activity {
-            font-size: 11px;
-            color: var(--muted);
+
+        .lanyard-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .blend-badge {
+            font-size: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 2px 6px;
+            border-radius: 8px;
+            color: #bbb;
+            font-weight: normal;
+        }
+
+        .lanyard-sub {
+            font-size: 12px;
+            color: #8e9297;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             margin-top: 2px;
         }
-        .spotify-thumb {
+
+        .lanyard-sub strong { color: #dcddde; }
+
+        .lanyard-art {
             width: 44px;
             height: 44px;
-            border-radius: 6px;
+            border-radius: 8px;
             object-fit: cover;
-            flex-shrink: 0;
-            border: 1px solid var(--border);
         }
 
-        /* Discord Floating Widget Panel */
-        .discord-panel {
+        /* Glowing Social Row */
+        .social-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 18px;
+            color: #fff;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .social-icon img {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Specific Glow Colors */
+        .social-icon.discord { color: #5865F2; }
+        .social-icon.discord:hover { background: #5865F2; color: #fff; box-shadow: 0 0 18px #5865F2; }
+
+        .social-icon.youtube { color: #FF0000; }
+        .social-icon.youtube:hover { background: #FF0000; color: #fff; box-shadow: 0 0 18px #FF0000; }
+
+        .social-icon.spotify { color: #1DB954; }
+        .social-icon.spotify:hover { background: #1DB954; color: #fff; box-shadow: 0 0 18px #1DB954; }
+
+        .social-icon.twitch { color: #9146FF; }
+        .social-icon.twitch:hover { background: #9146FF; color: #fff; box-shadow: 0 0 18px #9146FF; }
+
+        .social-icon.patreon { color: #FF424D; }
+        .social-icon.patreon:hover { background: #FF424D; color: #fff; box-shadow: 0 0 18px #FF424D; }
+
+        .social-icon.saul:hover { background: #e09f3e; box-shadow: 0 0 18px #e09f3e; }
+
+        .social-icon.steam { color: #1b2838; }
+        .social-icon.steam i { color: #66c0f4; }
+        .social-icon.steam:hover { background: #66c0f4; color: #1b2838; box-shadow: 0 0 18px #66c0f4; }
+        .social-icon.steam:hover i { color: #1b2838; }
+
+        .social-icon.xbox { color: #107C41; }
+        .social-icon.xbox:hover { background: #107C41; color: #fff; box-shadow: 0 0 18px #107C41; }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+            width: 100%;
+            justify-content: flex-start;
+        }
+
+        /* Custom Cursor Fix */
+        @media (pointer: fine) {
+            * { cursor: none !important; }
+        }
+
+        .cursor-dot {
             position: fixed;
-            top: 84px;
-            left: 24px;
-            z-index: 10;
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 12px 36px rgba(0,0,0,0.5);
-            overflow: hidden;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0;
-            transform: translateY(-10px) scale(0.95);
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background-color: #ffffff;
+            border-radius: 50%;
             pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.15s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
-        .discord-panel.open {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-        .discord-panel iframe {
-            display: block;
-            border: none;
-            background: transparent;
-        }
-        
-        .footer { position: fixed; left: 50%; bottom: 24px; width: min(720px,calc(100% - 40px)); transform: translateX(-50%); z-index: 10; text-align: center; }
-        .links { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
-        
-        .link-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 112px; padding: 11px 17px; color: var(--text); text-decoration: none; background: linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,0)),var(--panel); border: 1px solid var(--border); border-radius: 7px; font-size: 12px; font-weight: bold; backdrop-filter: blur(14px); transition: all .18s ease; }
-        .link-button i { font-size: 14px; }
-        .link-button:hover { color: white; background: linear-gradient(180deg,rgba(255,255,255,.03),transparent),var(--accent-soft); border-color: var(--accent-bright); transform: translateY(-3px); box-shadow: 0 9px 28px rgba(0,71,171,.14), inset 0 0 22px rgba(30,110,219,.035); }
-        
-        .copyright { color: var(--dim); font-size: 10px; line-height: 1.65; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-        .copyright strong { color: var(--muted); font-weight: normal; }
 
-        @media (pointer:fine) { html,body,body *,a,button,img { cursor: none !important; } }
-        .cursor-dot { position: fixed; top: 0; left: 0; width: 9px; height: 9px; border-radius: 50%; background: #e6f0ff; box-shadow: 0 0 0 1px rgba(0,0,0,.35),0 0 10px rgba(230,240,255,.34); pointer-events: none; transform: translate(-50%,-50%); opacity: 0; z-index: 9999; transition: opacity .1s ease,width .1s ease,height .1s ease; }
-        .cursor-dot.interactive { width: 14px; height: 14px; background: rgba(230,240,255,.12); border: 1px solid #e6f0ff; box-shadow: 0 0 11px rgba(230,240,255,.26); }
-        .cursor-dot.pressed { width: 6px; height: 6px; }
-        .cursor-glow { position: fixed; top: 0; left: 0; width: 350px; height: 350px; border-radius: 50%; background: radial-gradient(circle,rgba(30,110,219,.14),rgba(30,110,219,.065) 32%,rgba(30,110,219,.025) 55%,transparent 72%); filter: blur(10px); pointer-events: none; transform: translate(-50%,-50%); opacity: 0; z-index: 2; transition: opacity .18s ease; }
-        @media (pointer:coarse) { .cursor-dot,.cursor-glow { display:none; } }
-        @media (prefers-reduced-motion:reduce) { .ambient { animation:none; } }
-        @media (max-width:620px) { 
-            .top-left, .top-right { top:16px; } 
-            .top-left { left: 16px; }
-            .top-right { right: 16px; }
-            .discord-panel { left: 16px; right: 16px; width: auto !important; }
-            .footer { bottom:18px; } 
-            .link-button { min-width:96px; padding:10px 13px; font-size:11px; } 
+        .cursor-trail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.08s ease-out;
         }
     </style>
 </head>
 <body>
-    <!-- Background Video & Ambient FX -->
-    <div class="bg-video-container">
-        <!-- Drop background.mp4 in your GitHub repository folder alongside index.html -->
-        <video class="bg-video" id="bg-video" autoplay muted loop playsinline preload="auto">
-            <source src="background.mp4" type="video/mp4">
-        </video>
-    </div>
-    <div class="ambient"></div>
+
+    <!-- Video Background Stream -->
+    <video class="bg-video" id="bg-video" autoplay loop muted playsinline>
+        <source src="background.mp4" type="video/mp4">
+    </video>
     <div class="vignette"></div>
-    <div class="cursor-glow" id="cursor-glow"></div>
+
+    <!-- Custom Cursor Elements -->
     <div class="cursor-dot" id="cursor-dot"></div>
-    
-    <!-- Top Left: Discord Toggle Button & Floating Panel -->
+    <div class="cursor-trail" id="cursor-trail"></div>
+
+    <!-- Controls Header -->
     <div class="top-left">
-        <button class="icon-button" id="discord-toggle-button" type="button" aria-label="Toggle Discord Widget" title="Discord Community">
-            <i class="fa-brands fa-discord"></i>
-        </button>
-        <!-- Audio Unmute Toggle for Video Background -->
-        <button class="icon-button" id="audio-toggle-button" type="button" aria-label="Toggle Background Audio" title="Toggle Audio">
-            <i class="fa-solid fa-volume-xmark" id="audio-icon"></i>
-        </button>
+        <button class="icon-button" id="audio-toggle" title="Toggle Audio"><i class="fa-solid fa-volume-xmark"></i></button>
     </div>
-
-    <div class="discord-panel" id="discord-panel">
-        <iframe src="https://discord.com/widget?id=1541913776117383239&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-    </div>
-
-    <!-- Top Right: Random Video Button -->
     <div class="top-right">
-        <button class="icon-button" id="random-video-button" type="button" aria-label="Open a random YouTube video" title="Random YouTube Video">▶</button>
+        <button class="icon-button" id="random-video" title="Random Video">▶</button>
     </div>
 
-    <!-- Main Profile Card -->
-    <main class="main-container">
-        <div class="profile-card">
-            <div class="avatar-container">
-                <img class="avatar" id="card-avatar" src="https://placehold.co/120x120/161820/f0f2f6?text=P9" alt="Propro9 Avatar">
+    <!-- Center Card -->
+    <div class="container">
+        <div class="card">
+            
+            <div class="avatar-wrapper">
+                <img src="https://i.ibb.co/L8G2Q5N/chopper.png" id="avatar-img" class="avatar-img" alt="Propro9 Avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                <div class="status-dot" id="status-dot"></div>
             </div>
-            <h1 class="profile-title" id="card-name">propro9</h1>
-            <p class="profile-bio">A person that is cool (i think)</p>
-            <div class="profile-location">
+
+            <h1 class="username">propro9</h1>
+            <p class="tagline">A person that is cool (i think)</p>
+
+            <div class="location-badge">
                 <i class="fa-solid fa-location-dot"></i> Earth
             </div>
 
-            <!-- Live Discord Status via Lanyard API -->
-            <div class="discord-status-card" id="discord-status-card">
-                <div class="discord-avatar-wrapper">
-                    <img class="discord-avatar" id="lanyard-avatar" src="https://placehold.co/96x96/161820/9299a8?text=P" alt="Discord Avatar">
-                    <div class="status-dot status-offline" id="lanyard-dot"></div>
+            <!-- Discord Presence Box -->
+            <div class="lanyard-box" id="lanyard-box">
+                <img src="https://i.ibb.co/L8G2Q5N/chopper.png" class="lanyard-avatar" id="lanyard-avatar">
+                <div class="lanyard-details">
+                    <div class="lanyard-header">
+                        <span id="lanyard-username">propro_9</span>
+                        <span class="blend-badge">✦ blend</span>
+                    </div>
+                    <div class="lanyard-sub" id="lanyard-activity">Loading presence...</div>
                 </div>
-                <div class="discord-info">
-                    <div class="discord-username" id="lanyard-username">propro9_</div>
-                    <div class="discord-activity" id="lanyard-activity">Connecting to Lanyard...</div>
-                </div>
-                <img class="spotify-thumb" id="lanyard-spotify-thumb" src="" alt="Spotify Art" style="display: none;">
+                <img src="" class="lanyard-art" id="lanyard-art" style="display:none;">
             </div>
+
+            <!-- Glowing Social Icons Row -->
+            <div class="social-row">
+                <a href="https://discord.gg/hFQuDNbjhQ" target="_blank" class="social-icon discord" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                <a href="https://www.youtube.com/@Propro_9" target="_blank" class="social-icon youtube" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://open.spotify.com" target="_blank" class="social-icon spotify" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
+                <a href="https://twitch.tv" target="_blank" class="social-icon twitch" title="Twitch"><i class="fa-brands fa-twitch"></i></a>
+                <a href="https://www.patreon.com/cw/propro9" target="_blank" class="social-icon patreon" title="Patreon"><i class="fa-brands fa-patreon"></i></a>
+                <a href="https://propro-9.itch.io/" target="_blank" class="social-icon saul" title="Itch.io"><img src="https://i.imgur.com/8Q9Z5b3.png" alt="Saul" onerror="this.src='https://cdn.discordapp.com/embed/avatars/1.png'"></a>
+                <a href="https://steamcommunity.com" target="_blank" class="social-icon steam" title="Steam"><i class="fa-brands fa-steam"></i></a>
+                <a href="https://xbox.com" target="_blank" class="social-icon xbox" title="Xbox"><i class="fa-brands fa-xbox"></i></a>
+            </div>
+
+            <div class="card-footer">
+                <i class="fa-solid fa-eye"></i> <span id="views-count">0</span>
+            </div>
+
         </div>
-    </main>
-    
-    <footer class="footer">
-        <div class="links">
-            <a class="link-button" href="https://propro-9.itch.io/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-itch-io"></i> itch.io</a>
-            <a class="link-button" href="https://www.patreon.com/cw/propro9" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-patreon"></i> Patreon</a>
-            <a class="link-button" href="https://discord.gg/hFQuDNbjhQ" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Discord</a>
-            <a class="link-button" href="https://www.youtube.com/@Propro_9" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i> YouTube</a>
-        </div>
-        <div class="copyright">© 2026 <strong>Bowen S.</strong><br>All rights reserved.</div>
-    </footer>
+    </div>
 
     <script>
-        // 1. Live Discord Status Tracking via Lanyard API (WebSocket + REST Fallback)
-        const DISCORD_USER_ID = "1541913776117383239"; // Your Discord ID
-        const lanyardAvatar = document.getElementById("lanyard-avatar");
-        const lanyardDot = document.getElementById("lanyard-dot");
-        const lanyardUsername = document.getElementById("lanyard-username");
-        const lanyardActivity = document.getElementById("lanyard-activity");
-        const lanyardSpotifyThumb = document.getElementById("lanyard-spotify-thumb");
-        const cardAvatar = document.getElementById("card-avatar");
+        // DISCORD USER ID
+        const DISCORD_ID = "1223079178677780492";
 
-        function updateLanyardUI(data) {
-            if (!data) return;
-            const user = data.discord_user;
-            const status = data.discord_status; // online, idle, dnd, offline
-            
-            // Set avatars
-            if (user && user.avatar) {
-                const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`;
-                lanyardAvatar.src = avatarUrl;
-                cardAvatar.src = avatarUrl;
-                lanyardUsername.textContent = user.username || "propro9_";
-            }
-
-            // Status dot
-            lanyardDot.className = `status-dot status-${status}`;
-
-            // Check Spotify First
-            if (data.spotify && data.spotify.track_id) {
-                lanyardActivity.innerHTML = `<strong style="color:#1ed760;">Listening to</strong> ${escapeHtml(data.spotify.song)} <br><span style="color:var(--dim);">by ${escapeHtml(data.spotify.artist)}</span>`;
-                if (data.spotify.album_art_url) {
-                    lanyardSpotifyThumb.src = data.spotify.album_art_url;
-                    lanyardSpotifyThumb.style.display = "block";
-                }
-                return;
-            }
-
-            lanyardSpotifyThumb.style.display = "none";
-
-            // Check Custom Status or Activities
-            if (data.activities && data.activities.length > 0) {
-                // Find custom status or first activity
-                const customStatus = data.activities.find(act => act.type === 4);
-                const gameActivity = data.activities.find(act => act.type === 0);
-
-                if (customStatus && customStatus.state) {
-                    lanyardActivity.textContent = customStatus.state;
-                } else if (gameActivity) {
-                    lanyardActivity.textContent = `Playing ${gameActivity.name}`;
-                } else {
-                    lanyardActivity.textContent = `Status: ${status}`;
-                }
-            } else {
-                lanyardActivity.textContent = `Online`;
-            }
-        }
-
-        function escapeHtml(str) {
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
-
-        // Initialize REST fetch for instant load
-        fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`)
-            .then(res => res.json())
-            .then(response => {
-                if (response.success && response.data) {
-                    updateLanyardUI(response.data);
-                }
-            })
-            .catch(err => {
-                console.warn("Lanyard REST fetch failed, using fallback display", err);
-                lanyardActivity.textContent = "Offline / Status hidden";
-            });
-
-        // Connect to Lanyard WebSocket for real-time live updates
-        function connectLanyardWebSocket() {
-            const ws = new WebSocket("wss://api.lanyard.rest/socket");
-            ws.onopen = () => {
-                ws.send(JSON.stringify({
-                    op: 2,
-                    d: { subscribe_to_id: DISCORD_USER_ID }
-                }));
-            };
-            ws.onmessage = (event) => {
-                try {
-                    const message = JSON.parse(event.data);
-                    if (message.t === "INIT_STATE" || message.t === "PRESENCE_UPDATE") {
-                        updateLanyardUI(message.d);
-                    }
-                } catch (e) {
-                    console.error("Lanyard WS parse error:", e);
-                }
-            };
-            ws.onclose = () => {
-                setTimeout(connectLanyardWebSocket, 5000); // Reconnect after 5s
-            };
-        }
-        connectLanyardWebSocket();
-
-        // 2. Video Audio Toggle Logic
-        const bgVideo = document.getElementById("bg-video");
-        const audioToggleButton = document.getElementById("audio-toggle-button");
-        const audioIcon = document.getElementById("audio-icon");
+        // Video Audio Toggle
+        const bgVideo = document.getElementById('bg-video');
+        const audioBtn = document.getElementById('audio-toggle');
         
-        audioToggleButton.addEventListener("click", () => {
-            if (bgVideo.muted) {
-                bgVideo.muted = false;
-                audioIcon.className = "fa-solid fa-volume-high";
-                bgVideo.play().catch(() => {});
-            } else {
-                bgVideo.muted = true;
-                audioIcon.className = "fa-solid fa-volume-xmark";
+        audioBtn.addEventListener('click', () => {
+            bgVideo.muted = !bgVideo.muted;
+            audioBtn.innerHTML = bgVideo.muted 
+                ? '<i class="fa-solid fa-volume-xmark"></i>' 
+                : '<i class="fa-solid fa-volume-high"></i>';
+        });
+
+        // Random Video Switcher
+        const randomVideos = [
+            "https://www.youtube.com/watch?v=NUJ4T21DlAQ",
+            "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        ];
+        document.getElementById('random-video').addEventListener('click', () => {
+            window.open(randomVideos[Math.floor(Math.random() * randomVideos.length)], '_blank');
+        });
+
+        // Fixed Custom Cursor Logic
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorTrail = document.getElementById('cursor-trail');
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let trailX = mouseX;
+        let trailY = mouseY;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+        });
+
+        function animateCursor() {
+            trailX += (mouseX - trailX) * 0.2;
+            trailY += (mouseY - trailY) * 0.2;
+            cursorTrail.style.left = `${trailX}px`;
+            cursorTrail.style.top = `${trailY}px`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Fetch Discord Presence via Lanyard API
+        async function fetchLanyard() {
+            try {
+                const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+                const { data } = await res.json();
+                if (!data) return;
+
+                // Status Dot
+                const statusDot = document.getElementById('status-dot');
+                statusDot.className = `status-dot ${data.discord_status}`;
+
+                // Avatar
+                if (data.discord_user.avatar) {
+                    const avatarUrl = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${data.discord_user.avatar}.png?size=256`;
+                    document.getElementById('avatar-img').src = avatarUrl;
+                    document.getElementById('lanyard-avatar').src = avatarUrl;
+                }
+
+                // Spotify or Game Activity
+                const activityElem = document.getElementById('lanyard-activity');
+                const artElem = document.getElementById('lanyard-art');
+
+                if (data.listening_to_spotify) {
+                    activityElem.innerHTML = `Listening to <strong>${data.spotify.song}</strong> by ${data.spotify.artist}`;
+                    artElem.src = data.spotify.album_art_url;
+                    artElem.style.display = 'block';
+                } else if (data.activities && data.activities.length > 0) {
+                    const game = data.activities.find(a => a.type === 0);
+                    if (game) {
+                        activityElem.innerHTML = `Playing <strong>${game.name}</strong>`;
+                        artElem.style.display = 'none';
+                    } else {
+                        activityElem.innerHTML = `Offline / Chilling`;
+                        artElem.style.display = 'none';
+                    }
+                } else {
+                    activityElem.innerHTML = `Offline / Chilling`;
+                    artElem.style.display = 'none';
+                }
+            } catch (err) {
+                console.error("Lanyard error:", err);
             }
-        });
+        }
 
-        // 3. Random Video Logic
-        const randomVideoButton = document.getElementById("random-video-button");
-        const randomVideos = ["https://www.youtube.com/watch?v=Wei9LZPEsnw", "https://www.youtube.com/watch?v=jNQXAC9IVRw","https://www.youtube.com/watch?v=9bZkp7q19f0","https://www.youtube.com/watch?v=dQw4w9WgXcQ","https://www.youtube.com/watch?v=GHiOrkQlIGM","https://www.youtube.com/watch?v=IVYjJ5eEmuk","https://www.youtube.com/watch?v=nOJd3xoKMyI","https://www.youtube.com/watch?v=v3Jr9dGHbG4","https://www.youtube.com/watch?v=FtutLA63Cp8"];
-        randomVideoButton.addEventListener("click", () => window.open(randomVideos[Math.floor(Math.random() * randomVideos.length)], "_blank", "noopener,noreferrer"));
-
-        // 4. Discord Widget Toggle Logic
-        const discordToggle = document.getElementById("discord-toggle-button");
-        const discordPanel = document.getElementById("discord-panel");
-
-        discordToggle.addEventListener("click", (e) => {
-            e.stopPropagation();
-            discordPanel.classList.toggle("open");
-        });
-
-        document.addEventListener("click", (e) => {
-            if (!discordPanel.contains(e.target) && !discordToggle.contains(e.target)) {
-                discordPanel.classList.remove("open");
-            }
-        });
-
-        // 5. Custom Cursor Logic
-        const cursorDot = document.getElementById("cursor-dot"), cursorGlow = document.getElementById("cursor-glow");
-        let mouseX = innerWidth / 2, mouseY = innerHeight / 2, glowX = mouseX, glowY = mouseY;
-        document.addEventListener("mousemove", event => { mouseX = event.clientX; mouseY = event.clientY; cursorDot.style.left = `${mouseX}px`; cursorDot.style.top = `${mouseY}px`; cursorDot.style.opacity = "1"; cursorGlow.style.opacity = "1"; });
-        document.addEventListener("mouseleave", () => { cursorDot.style.opacity = "0"; cursorGlow.style.opacity = "0"; });
-        document.querySelectorAll("a, button").forEach(element => { element.addEventListener("mouseenter", () => cursorDot.classList.add("interactive")); element.addEventListener("mouseleave", () => cursorDot.classList.remove("interactive")); });
-        document.addEventListener("mousedown", () => cursorDot.classList.add("pressed"));
-        document.addEventListener("mouseup", () => cursorDot.classList.remove("pressed"));
-        function updateCursorGlow() { glowX += (mouseX - glowX) * .12; glowY += (mouseY - glowY) * .12; cursorGlow.style.left = `${glowX}px`; cursorGlow.style.top = `${glowY}px`; requestAnimationFrame(updateCursorGlow); }
-        updateCursorGlow();
-    </video></body>
+        fetchLanyard();
+        setInterval(fetchLanyard, 10000); // refresh every 10s
+    </script>
+</body>
 </html>
